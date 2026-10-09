@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#170300">
+<title>Crousty Chips — Publicité officielle</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --red: #ff261b;
+  --deep-red: #650900;
+  --gold: #ffca4b;
+  --cream: #fff4dc;
+  --dark: #160402;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #080403;
+  color: white;
+  font-family: Montserrat, Arial, sans-serif;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  padding: 20px 12px 34px;
+}
+
+button { font: inherit; }
+
+.player {
+  position: relative;
+  width: min(100%, 430px);
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--dark);
+  border: 1px solid #6b2a12;
+  border-radius: 18px;
+  box-shadow: 0 25px 100px #ff3b111c, 0 0 40px #ffb42c12;
+}
+
+#particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.backdrop {
+  position: absolute;
+  inset: -15%;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse at 50% 42%, #8e260b 0%, #3e0b04 32%,
+      #190401 65%, #080302 100%);
+  animation: backgroundBreath 8s ease-in-out infinite alternate;
+}
+
+.backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .3;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 46%,
+    transparent 0deg 12deg,
+    #ff9e321c 12deg 13deg
+  );
+  mask-image: radial-gradient(ellipse, black, transparent 74%);
+  animation: rays 38s linear infinite;
+}
+
+.backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #0005, transparent 27%,
+    transparent 72%, #000b);
+}
+
+@keyframes backgroundBreath {
+  from { transform: scale(1); filter: saturate(1); }
+  to { transform: scale(1.13); filter: saturate(1.3); }
+}
+
+@keyframes rays { to { transform: rotate(360deg); } }
+
+.scene {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 13px;
+  padding: 10% 7% 13%;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.055);
+  transition: opacity .75s ease, transform 1s cubic-bezier(.2,.7,.1,1),
+    visibility .75s;
+}
+
+.scene.active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+.scene.exit {
+  opacity: 0;
+  transform: scale(.92) translateY(-15px);
+}
+
+.kicker {
+  color: var(--gold);
+  font-size: clamp(10px, 2.6vw, 13px);
+  letter-spacing: .27em;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.headline {
+  margin: 0;
+  font-family: Anton, Impact, sans-serif;
+  font-size: clamp(43px, 12vw, 67px);
+  line-height: .98;
+  text-transform: uppercase;
+  letter-spacing: -.015em;
+  text-shadow: 0 5px 0 #651006, 0 10px 32px #0009;
+}
+
+.gold {
+  color: var(--gold);
+  text-shadow: 0 0 25px #ffb21c65, 0 5px 0 #7e2606;
+}
+
+.red { color: #ff3c2e; }
+
+.copy {
+  max-width: 310px;
+  margin: 0;
+  color: #ffefdb;
+  font-size: clamp(12px, 3.4vw, 15px);
+  line-height: 1.7;
+  font-weight: 600;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 15px;
+  border: 1px solid #ffcf6c7a;
+  border-radius: 99px;
+  background: #ffffff0b;
+  color: #fff2db;
+  font-size: 10px;
+  letter-spacing: .1em;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.logo {
+  position: relative;
+  padding: 10px 17px 12px;
+  border: 2px solid #ffe19a;
+  outline: 1px solid #ffb22d66;
+  outline-offset: 5px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #ffca4b, #f84a16 45%, #a30905);
+  color: white;
+  font-family: Anton, Impact, sans-serif;
+  font-size: clamp(30px, 8.8vw, 49px);
+  line-height: .95;
+  letter-spacing: .01em;
+  transform: rotate(-3deg);
+  box-shadow: 0 15px 40px #0007, 0 0 40px #ffab2960;
+  text-shadow: 0 3px 0 #7d1607;
+}
+
+.logo small {
+  display: block;
+  margin-bottom: 7px;
+  font-family: Montserrat, Arial, sans-serif;
+  font-size: 9px;
+  letter-spacing: .36em;
+  text-shadow: none;
+}
+
+.chip-stage {
+  position: relative;
+  width: min(80%, 300px);
+  height: 220px;
+  perspective: 700px;
+  filter: drop-shadow(0 22px 17px #0008);
+}
+
+.chip {
+  position: absolute;
+  width: 92px;
+  height: 110px;
+  border-radius: 49% 51% 47% 53% / 44% 43% 57% 56%;
+  background:
+    radial-gradient(ellipse at 35% 28%, #ffe99b 0 4%, transparent 19%),
+    radial-gradient(ellipse at 65% 70%, #a84d0c 0 4%, transparent 19%),
+    radial-gradient(ellipse at 46% 49%, #f4b83c, #dc841b 65%, #a64d0d);
+  border: 1px solid #ffd36c;
+  box-shadow: inset 3px 2px 5px #fff5, inset -5px -8px 10px #8b330a55;
+  animation: chipFloat 3.2s ease-in-out infinite alternate;
+}
+
+.chip::after {
+  content: "";
+  position: absolute;
+  inset: 13% 18%;
+  border-radius: 50%;
+  border: 2px solid #a95c153d;
+  transform: rotate(30deg);
+  box-shadow: 5px 9px 0 -4px #fff4;
+}
+
+.chip:nth-child(1) {
+  left: 12%; top: 20%; transform: rotate(-27deg);
+}
+.chip:nth-child(2) {
+  left: 39%; top: 2%; transform: rotate(15deg);
+  animation-delay: -.8s;
+}
+.chip:nth-child(3) {
+  left: 56%; top: 31%; transform: rotate(42deg);
+  animation-delay: -1.3s;
+}
+.chip:nth-child(4) {
+  left: 25%; top: 48%; transform: rotate(18deg);
+  animation-delay: -.5s;
+}
+.chip:nth-child(5) {
+  left: 2%; top: 45%; transform: rotate(-52deg);
+  animation-delay: -1.8s;
+}
+.chip:nth-child(6) {
+  left: 55%; top: 62%; transform: rotate(-15deg);
+  animation-delay: -.9s;
+}
+
+@keyframes chipFloat {
+  from { margin-top: -6px; }
+  to { margin-top: 9px; }
+}
+
+.product {
+  position: relative;
+  width: 180px;
+  height: 240px;
+  border: 3px solid #ffffff7a;
+  border-radius: 28px 28px 34px 34px;
+  background: linear-gradient(100deg, #ffffff35, #ffffff06 22%,
+    #ffffff23 46%, #ffffff03 66%, #ffffff24);
+  box-shadow: inset 8px 0 12px #fff2, inset -8px 0 12px #0003,
+    0 25px 45px #0008;
+  overflow: visible;
+  transform: rotate(-5deg);
+  animation: jarEnter 1s cubic-bezier(.2,.8,.2,1) both,
+    jarFloat 4s 1s ease-in-out infinite;
+}
+
+.jar-lid {
+  position: absolute;
+  top: -22px;
+  left: -7px;
+  right: -7px;
+  height: 38px;
+  border: 2px solid #ff7663;
+  border-radius: 12px 12px 7px 7px;
+  background: repeating-linear-gradient(90deg,
+    #c70d12 0 8px, #ff5140 8px 13px);
+  box-shadow: 0 7px 10px #0006;
+}
+
+.jar-chips {
+  position: absolute;
+  inset: 12px 7px 9px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #6a310c55;
+}
+
+.jar-chip {
+  position: absolute;
+  width: 65px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 30% 20%, #ffe38a, #e89a24 62%, #a95010);
+  border: 1px solid #ffc65b;
+  box-shadow: inset 2px 2px 4px #fff5;
+}
+
+.jar-chip:nth-child(1) { left: 4px; top: 15px; transform: rotate(20deg); }
+.jar-chip:nth-child(2) { left: 75px; top: 25px; transform: rotate(-25deg); }
+.jar-chip:nth-child(3) { left: 30px; top: 53px; transform: rotate(60deg); }
+.jar-chip:nth-child(4) { left: 82px; top: 82px; transform: rotate(10deg); }
+.jar-chip:nth-child(5) { left: 1px; top: 108px; transform: rotate(-40deg); }
+.jar-chip:nth-child(6) { left: 57px; top: 130px; transform: rotate(35deg); }
+.jar-chip:nth-child(7) { left: 9px; top: 166px; transform: rotate(5deg); }
+.jar-chip:nth-child(8) { left: 77px; top: 173px; transform: rotate(-30deg); }
+
+.jar-label {
+  position: absolute;
+  z-index: 2;
+  left: -3px;
+  right: -3px;
+  top: 75px;
+  padding: 14px 5px;
+  background: linear-gradient(140deg, #ff3c2c, #b70c08);
+  border-top: 2px solid #ff9a4a;
+  border-bottom: 2px solid #ffb846;
+  font-family: Anton, Impact, sans-serif;
+  font-size: 25px;
+  line-height: 1;
+  text-shadow: 0 2px 0 #741009;
+  box-shadow: 0 5px 12px #0004;
+}
+
+.jar-label small {
+  display: block;
+  margin-bottom: 6px;
+  font: 800 8px Montserrat, sans-serif;
+  letter-spacing: .2em;
+}
+
+.price-card {
+  min-width: 215px;
+  padding: 18px 25px;
+  border: 2px solid #ffda77;
+  border-radius: 12px;
+  background: linear-gradient(140deg, #ff4a24, #a60908 75%);
+  box-shadow: 0 0 0 5px #ffb82c17, 0 18px 40px #0007;
+  transform: rotate(-2deg);
+  animation: pricePop .65s cubic-bezier(.16,1.4,.4,1) both;
+}
+
+.price {
+  color: var(--gold);
+  font-family: Anton, Impact, sans-serif;
+  font-size: 67px;
+  line-height: 1;
+  text-shadow: 0 4px 0 #7b1909;
+}
+
+.price small {
+  font: 900 16px Montserrat, sans-serif;
+}
+
+@keyframes pricePop {
+  from { opacity: 0; transform: scale(.3) rotate(8deg); }
+  to { opacity: 1; transform: scale(1) rotate(-2deg); }
+}
+
+@keyframes jarEnter {
+  from { opacity: 0; transform: translateY(70px) rotate(12deg) scale(.7); }
+  to { opacity: 1; transform: translateY(0) rotate(-5deg) scale(1); }
+}
+
+@keyframes jarFloat {
+  0%, 100% { margin-top: 0; }
+  50% { margin-top: -10px; }
+}
+
+.flavor-row {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  max-width: 320px;
+}
+
+.flavor {
+  padding: 10px 12px;
+  border: 1px solid #ffffff3a;
+  border-radius: 7px;
+  background: #ffffff0c;
+  color: white;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  animation: flavorIn .6s both;
+}
+
+.flavor:nth-child(2) { animation-delay: .15s; }
+.flavor:nth-child(3) { animation-delay: .3s; }
+
+@keyframes flavorIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.whatsapp {
+  display: inline-block;
+  padding: 13px 17px;
+  border: 1px solid #8bffab;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #20c86a, #087d40);
+  color: white;
+  font-size: 13px;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 0 8px 25px #00d66b35;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 8px 25px #00d66b35; }
+  50% { box-shadow: 0 8px 35px #00ff876d; }
+}
+
+.small-note {
+  color: #f7d5b3;
+  font-size: 10px;
+  letter-spacing: .12em;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.star {
+  position: absolute;
+  color: #ffce55;
+  font-size: 22px;
+  animation: starTwinkle 1.5s ease-in-out infinite alternate;
+}
+
+.star.s1 { left: 11%; top: 19%; }
+.star.s2 { right: 12%; top: 27%; animation-delay: -.7s; }
+.star.s3 { left: 15%; bottom: 24%; animation-delay: -.3s; }
+.star.s4 { right: 14%; bottom: 21%; animation-delay: -1s; }
+
+@keyframes starTwinkle {
+  from { opacity: .25; transform: scale(.7) rotate(0deg); }
+  to { opacity: 1; transform: scale(1.2) rotate(30deg); }
+}
+
+.flash {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background: white;
+  opacity: 0;
+}
+
+.flash.hit { animation: flashHit .4s ease-out; }
+
+@keyframes flashHit {
+  0% { opacity: .8; }
+  100% { opacity: 0; }
+}
+
+.player-controls {
+  position: absolute;
+  z-index: 10;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.control-btn {
+  flex-shrink: 0;
+  border: 1px solid #ffffff35;
+  border-radius: 50px;
+  padding: 8px 11px;
+  background: #100503bb;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.progress {
+  height: 4px;
+  flex: 1;
+  overflow: hidden;
+  border-radius: 9px;
+  background: #ffffff30;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ff3b23, #ffd25b);
+  box-shadow: 0 0 12px #ffc13f;
+}
+
+.time {
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.caption {
+  position: absolute;
+  z-index: 8;
+  bottom: 48px;
+  left: 0;
+  right: 0;
+  padding: 0 16px;
+  color: #ffffffc4;
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-align: center;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.outside-controls {
+  width: min(100%, 430px);
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.outside-controls button {
+  padding: 11px 15px;
+  border: 1px solid #66301d;
+  border-radius: 8px;
+  background: #26100b;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.outside-controls button:hover {
+  background: #51180e;
+}
+
+.helper {
+  width: min(100%, 430px);
+  color: #bca69a;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.7;
+  margin-top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main>
+  <div class="player" id="player" aria-label="Publicité Crousty Chips">
+    <div class="backdrop"></div>
+    <canvas id="particles"></canvas>
+    <div class="flash" id="flash"></div>
+
+    <!-- SCÈNE 1 : INTRO CINÉMATIQUE | 0–5 s -->
+    <section class="scene active" data-start="0" data-end="5">
+      <div class="kicker">Le goût qui fait la différence</div>
+      <div class="chip-stage" aria-hidden="true">
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+      </div>
+      <div class="logo"><small>100 % PLAISIR</small>CROUSTY<br>CHIPS</div>
+      <p class="copy">Prépare-toi à vivre une expérience délicieusement croustillante.</p>
+      <div class="pill">Le plaisir à chaque bouchée</div>
+    </section>
+
+    <!-- SCÈNE 2 : PRODUIT | 5–9 s -->
+    <section class="scene" data-start="5" data-end="9">
+      <div class="kicker">Dorées. Savoureuses. Irrésistibles.</div>
+      <h1 class="headline">LE CROQUANT<br><span class="gold">QUI RÉGALE !</span></h1>
+      <div class="chip-stage" aria-hidden="true">
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+      </div>
+      <p class="copy">Une pause gourmande à partager… ou à garder pour soi !</p>
+    </section>
+
+    <!-- SCÈNE 3 : SAVEURS | 9–13 s -->
+    <section class="scene" data-start="9" data-end="13">
+      <div class="kicker">Trois envies. Un seul plaisir.</div>
+      <h2 class="headline">CHOISIS<br><span class="gold">TA SAVEUR</span></h2>
+      <div class="chip-stage" aria-hidden="true">
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+      </div>
+      <div class="flavor-row">
+        <div class="flavor">🧂 Salées</div>
+        <div class="flavor">🍯 Sucrées</div>
+        <div class="flavor">🌶️ Pimentées</div>
+      </div>
+      <p class="copy">Quelle que soit ton envie, Crousty Chips est au rendez-vous !</p>
+    </section>
+
+    <!-- SCÈNE 4 : PRIX 100 F | 13–17 s -->
+    <section class="scene" data-start="13" data-end="17">
+      <div class="kicker">Le plaisir à petit prix</div>
+      <h2 class="headline">PETIT PRIX<br><span class="gold">GRAND PLAISIR</span></h2>
+      <div class="chip-stage" aria-hidden="true">
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+      </div>
+      <div class="price-card">
+        <div class="price">100 <small>F CFA</small></div>
+        <div class="small-note">Ton snack à petit prix</div>
+      </div>
+    </section>
+
+    <!-- SCÈNE 5 : PRIX 500 F | 17–21 s -->
+    <section class="scene" data-start="17" data-end="21">
+      <div class="kicker">Encore plus à savourer</div>
+      <h2 class="headline">FAIS-TOI<br><span class="gold">PLAISIR !</span></h2>
+      <div class="chip-stage" aria-hidden="true">
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+      </div>
+      <div class="price-card">
+        <div class="price">500 <small>F CFA</small></div>
+        <div class="small-note">Le format qui fait plaisir</div>
+      </div>
+    </section>
+
+    <!-- SCÈNE 6 : POT 1000 F | 21–25 s -->
+    <section class="scene" data-start="21" data-end="25">
+      <div class="kicker">Le format généreux</div>
+      <h2 class="headline">LE POT<br><span class="gold">À PARTAGER</span></h2>
+      <div class="product" aria-label="Pot transparent de chips">
+        <div class="jar-lid"></div>
+        <div class="jar-chips">
+          <div class="jar-chip"></div><div class="jar-chip"></div>
+          <div class="jar-chip"></div><div class="jar-chip"></div>
+          <div class="jar-chip"></div><div class="jar-chip"></div>
+          <div class="jar-chip"></div><div class="jar-chip"></div>
+        </div>
+        <div class="jar-label"><small>CROUSTY</small>CHIPS</div>
+      </div>
+      <div class="price-card">
+        <div class="price">1 000 <small>F CFA</small></div>
+        <div class="small-note">Le pot gourmand</div>
+      </div>
+    </section>
+
+    <!-- SCÈNE 7 : LIVRAISON | 25–29 s -->
+    <section class="scene" data-start="25" data-end="29">
+      <div class="kicker">Depuis le Bénin, avec gourmandise</div>
+      <div class="logo"><small>LE BONHEUR EN CHIPS</small>CROUSTY<br>CHIPS</div>
+      <div class="chip-stage" aria-hidden="true">
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+      </div>
+      <h2 class="headline">ON LIVRE<br><span class="gold">POUR TOI !</span></h2>
+      <p class="copy">Livraison possible au Bénin. Contacte-nous pour connaître les modalités.</p>
+    </section>
+
+    <!-- SCÈNE 8 : APPEL À L'ACTION | 29–36 s -->
+    <section class="scene" data-start="29" data-end="36">
+      <div class="kicker">C'est le moment de te régaler</div>
+      <div class="logo"><small>TON NOUVEAU SNACK PRÉFÉRÉ</small>CROUSTY<br>CHIPS</div>
+      <div class="chip-stage" aria-hidden="true" style="height:150px">
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+        <div class="chip"></div><div class="chip"></div>
+      </div>
+      <h2 class="headline" style="font-size:clamp(34px,9vw,48px)">
+        COMMANDE<br><span class="gold">MAINTENANT !</span>
+      </h2>
+      <a class="whatsapp"
+         href="https://wa.me/2290157964416?text=Bonjour%20Crousty%20Chips%2C%20je%20souhaite%20passer%20une%20commande."
+         target="_blank" rel="noopener">
+        WhatsApp : +229 01 57 96 44 16
+      </a>
+      <p class="copy">Salées • Sucrées • Pimentées<br>100 F • 500 F • Pot à 1 000 F</p>
+      <div class="pill">Crousty Chips — Le plaisir qui croustille !</div>
+    </section>
+
+    <div class="star s1">✦</div>
+    <div class="star s2">✧</div>
+    <div class="star s3">✦</div>
+    <div class="star s4">✧</div>
+
+    <div class="caption" id="caption">CROUSTY CHIPS • LE PLAISIR QUI CROUSTILLE</div>
+
+    <div class="player-controls">
+      <button class="control-btn" id="playBtn" type="button">Ⅱ Pause</button>
+      <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+      <span class="time" id="time">00:00 / 00:36</span>
+      <button class="control-btn" id="soundBtn" type="button" aria-label="Activer le son">♪ Son</button>
+    </div>
+  </div>
+
+  <div class="outside-controls">
+    <button id="restartBtn" type="button">↻ Recommencer</button>
+    <button id="fullscreenBtn" type="button">⛶ Plein écran</button>
+  </div>
+  <p class="helper">
+    Publicité animée • 36 secondes • Format vertical 9:16<br>
+    Le son est optionnel. Clique sur « Son » pour activer l'ambiance sonore.
+  </p>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const DURATION = 36;
+  const player = document.getElementById("player");
+  const scenes = [...document.querySelectorAll(".scene")];
+  const progressBar = document.getElementById("progressBar");
+  const timeDisplay = document.getElementById("time");
+  const playBtn = document.getElementById("playBtn");
+  const soundBtn = document.getElementById("soundBtn");
+  const flash = document.getElementById("flash");
+  const canvas = document.getElementById("particles");
+  const ctx = canvas.getContext("2d");
+
+  let elapsed = 0;
+  let playing = true;
+  let soundOn = false;
+  let lastFrame = performance.now();
+  let lastScene = -1;
+  let audioContext = null;
+  let masterGain = null;
+  let particles = [];
+  let width = 0, height = 0;
+
+  const captions = [
+    "LE GOÛT QUI FAIT LA DIFFÉRENCE",
+    "LE CROQUANT QUI RÉGALE",
+    "SALÉES • SUCRÉES • PIMENTÉES",
+    "LE PLAISIR À PETIT PRIX : 100 F",
+    "FAIS-TOI PLAISIR : 500 F",
+    "LE POT GOURMAND : 1 000 F",
+    "LIVRAISON POSSIBLE AU BÉNIN",
+    "CONTACTE-NOUS ET COMMANDE"
+  ];
+
+  function formatTime(seconds) {
+    const s = Math.floor(seconds);
+    return String(Math.floor(s / 60)).padStart(2, "0") + ":" +
+      String(s % 60).padStart(2, "0");
+  }
+
+  function resizeCanvas() {
+    const rect = player.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = rect.width;
+    height = rect.height;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function makeParticle(initial = false) {
+    return {
+      x: Math.random() * width,
+      y: initial ? Math.random() * height : height + 5,
+      r: Math.random() * 2.4 + .5,
+      speed: Math.random() * 20 + 9,
+      drift: (Math.random() - .5) * 17,
+      alpha: Math.random() * .6 + .15,
+      hue: Math.random() > .75 ? 42 : 27,
+      phase: Math.random() * 6.28
+    };
+  }
+
+  function resetParticles() {
+    particles = Array.from({length: 65}, () => makeParticle(true));
+  }
+
+  function drawParticles(dt) {
+    ctx.clearRect(0, 0, width, height);
+    const t = performance.now() / 1000;
+
+    for (const p of particles) {
+      p.y -= p.speed * dt;
+      p.x += (p.drift + Math.sin(t + p.phase) * 8) * dt;
+
+      if (p.y < -10) Object.assign(p, makeParticle(false));
+
+      ctx.beginPath();
+      ctx.fillStyle = `hsla(${p.hue}, 100%, 66%, ${p.alpha})`;
+      ctx.shadowColor = "#ffb638";
+      ctx.shadowBlur = p.r * 4;
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+  }
+
+  function initializeAudio() {
+    if (audioContext) {
+      if (audioContext.state === "suspended") audioContext.resume();
+      return;
+    }
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+
+    audioContext = new AudioCtx();
+    masterGain = audioContext.createGain();
+    masterGain.gain.value = soundOn ? 0.14 : 0;
+    masterGain.connect(audioContext.destination);
+
+    const notes = [110, 146.83, 164.81, 130.81];
+    notes.forEach((freq, i) => {
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      gain.gain.value = 0.10;
+      osc.connect(gain);
+      gain.connect(masterGain);
+      osc.start();
+      const now = audioContext.currentTime;
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.linearRampToValueAtTime(0.08, now + 1.2);
+      osc.frequency.setValueAtTime(freq, now);
+    });
+  }
+
+  function playWhoosh() {
+    if (!soundOn || !audioContext || !masterGain) return;
+    const now = audioContext.currentTime;
+    const bufferSize = Math.floor(audioContext.sampleRate * .32);
+    const buffer = audioContext.createBuffer(
+      1, bufferSize, audioContext.sampleRate
+    );
+    const data = buffer.getChannelData(0);
+
+    for (let i = 0; i < bufferSize; i++) {
+      const fade = 1 - i / bufferSize;
+      data[i] = (Math.random() * 2 - 1) * fade * fade;
+    }
+
+    const source = audioContext.createBufferSource();
+    const filter = audioContext.createBiquadFilter();
+    const gain = audioContext.createGain();
+
+    source.buffer = buffer;
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(500, now);
+    filter.frequency.exponentialRampToValueAtTime(5000, now + .2);
+    gain.gain.setValueAtTime(.0001, now);
+    gain.gain.exponentialRampToValueAtTime(.24, now + .07);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + .3);
+
+    source.connect(filter);
+    filter.connect(gain);
+    gain.connect(masterGain);
+    source.start(now);
+    source.stop(now + .32);
+  }
+
+  function hitFlash() {
+    flash.classList.remove("hit");
+    void flash.offsetWidth;
+    flash.classList.add("hit");
+  }
+
+  function showScene(index) {
+    if (index === lastScene) return;
+    lastScene = index;
+
+    scenes.forEach((scene, i) => {
+      scene.classList.toggle("active", i === index);
+      scene.classList.remove("exit");
+    });
+
+    document.getElementById("caption").textContent =
+      captions[index] || "CROUSTY CHIPS";
+
+    if (index > 0) {
+      hitFlash();
+      playWhoosh();
+    }
+  }
+
+  function updateUI() {
+    const safeTime = Math.min(elapsed, DURATION);
+    progressBar.style.width = (safeTime / DURATION * 100) + "%";
+    timeDisplay.textContent = formatTime(safeTime) + " / 00:36";
+
+    let index = scenes.findIndex(scene => {
+      return safeTime >= Number(scene.dataset.start) &&
+             safeTime < Number(scene.dataset.end);
+    });
+
+    if (index < 0) index = scenes.length - 1;
+    showScene(index);
+  }
+
+  function frame(now) {
+    const dt = Math.min((now - lastFrame) / 1000, .05);
+    lastFrame = now;
+
+    if (playing) {
+      elapsed += dt;
+      if (elapsed >= DURATION) {
+        elapsed = DURATION;
+        playing = false;
+        playBtn.textContent = "▶ Revoir";
+      }
+      updateUI();
+    }
+
+    drawParticles(dt);
+    requestAnimationFrame(frame);
+  }
+
+  playBtn.addEventListener("click", () => {
+    if (elapsed >= DURATION) elapsed = 0;
+    playing = !playing;
+    playBtn.textContent = playing ? "Ⅱ Pause" : "▶ Lecture";
+    lastFrame = performance.now();
+    if (playing && soundOn) initializeAudio();
+  });
+
+  document.getElementById("restartBtn").addEventListener("click", () => {
+    elapsed = 0;
+    playing = true;
+    lastScene = -1;
+    lastFrame = performance.now();
+    playBtn.textContent = "Ⅱ Pause";
+    updateUI();
+    if (soundOn) initializeAudio();
+  });
+
+  soundBtn.addEventListener("click", () => {
+    soundOn = !soundOn;
+    soundBtn.textContent = soundOn ? "♪ Son ON" : "♪ Son";
+    if (soundOn) initializeAudio();
+    if (masterGain && audioContext) {
+      masterGain.gain.setTargetAtTime(
+        soundOn ? .14 : 0,
+        audioContext.currentTime, .12
+      );
+    }
+  });
+
+  document.getElementById("fullscreenBtn").addEventListener("click", async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await player.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+      setTimeout(resizeCanvas, 100);
+    } catch (error) {
+      console.warn("Plein écran indisponible sur ce navigateur.", error);
+    }
+  });
+
+  window.addEventListener("resize", resizeCanvas);
+
+  resizeCanvas();
+  resetParticles();
+  updateUI();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
