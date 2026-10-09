@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CROUSTY CHIPS — Publicité Interactive 30s</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0F0F1A;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Conteneur principal */
+        .ad-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            aspect-ratio: 9 / 16;
+            background: linear-gradient(135deg, #0F0F1A 0%, #1a1a2e 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(251, 133, 0, 0.3), 0 0 60px rgba(230, 57, 70, 0.2);
+            border: 2px solid rgba(255, 183, 3, 0.1);
+        }
+
+        /* Scènes */
+        .scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .scene.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Fond dégradé par scène */
+        .scene-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .scene1 .scene-bg {
+            background: linear-gradient(135deg, #E63946 0%, #FB8500 50%, #FFB703 100%);
+        }
+
+        .scene2 .scene-bg {
+            background: linear-gradient(180deg, #FFB703 0%, #FB8500 100%);
+        }
+
+        .scene3 .scene-bg {
+            background: linear-gradient(135deg, #FB8500 0%, #E63946 100%);
+        }
+
+        .scene4 .scene-bg {
+            background: linear-gradient(180deg, #0F0F1A 0%, #1a1a2e 100%);
+        }
+
+        .scene5 .scene-bg {
+            background: linear-gradient(135deg, #FFB703 0%, #FB8500 50%, #E63946 100%);
+        }
+
+        /* Contenu des scènes */
+        .scene-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        /* Typographie */
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            margin: 20px 0;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            margin: 15px 0;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin: 15px 0;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 10px;
+        }
+
+        /* Scène 1 - Hook */
+        .scene1 .logo-explode {
+            font-size: 5rem;
+            font-weight: 900;
+            color: white;
+            text-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.8),
+                0 0 40px rgba(255, 183, 3, 0.6),
+                0 8px 20px rgba(0, 0, 0, 0.5);
+            transform-origin: center;
+        }
+
+        /* Scène 2 - Cartes 3D */
+        .flavors-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 450px;
+            margin: 30px 0;
+        }
+
+        .flavor-card {
+            padding: 25px 15px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flavor-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .flavor-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .flavor-name {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .flavor-desc {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .price-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFB703, #FB8500);
+            color: #0F0F1A;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1.3rem;
+            margin-top: 20px;
+            box-shadow: 0 8px 20px rgba(255, 183, 3, 0.4);
+            text-shadow: none;
+        }
+
+        /* Scène 3 - Gammes Premium */
+        .products-showcase {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            width: 100%;
+            height: 300px;
+            margin: 40px 0;
+        }
+
+        .product-item {
+            text-align: center;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .product-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+        }
+
+        .product-item.premium .product-icon {
+            font-size: 5rem;
+            animation: glow-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { filter: drop-shadow(0 8px 16px rgba(255, 255, 255, 0.2)); }
+            50% { filter: drop-shadow(0 15px 30px rgba(255, 183, 3, 0.6)); }
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #FFB703;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        /* Scène 4 - Livraison & Bénin */
+        .delivery-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .delivery-icon {
+            font-size: 5rem;
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+        }
+
+        .benin-flag {
+            width: 80px;
+            height: 50px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin: 20px 0;
+        }
+
+        /* Scène 5 - CTA Final */
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFB703, #FB8500);
+            color: #0F0F1A;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1.4rem;
+            margin: 25px 0;
+            box-shadow: 0 12px 30px rgba(255, 183, 3, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            animation: pulse-button 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-button {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 18px 40px rgba(255, 183, 3, 0.7);
+        }
+
+        /* Canvas pour les particules */
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Barre de progression */
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 20;
+            border-radius: 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFB703, #FB8500);
+            width: 0%;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 10px rgba(255, 183, 3, 0.8);
+        }
+
+        /* Timer */
+        .timer {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Contrôles */
+        .controls {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            display: flex;
+            gap: 10px;
+            z-index: 20;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        /* Animation de texte */
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .glitch-text::before {
+            animation: glitch-anim 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+            color: #FB8500;
+            z-index: -1;
+            text-shadow: -2px 0 #FFB703;
+        }
+
+        .glitch-text::after {
+            animation: glitch-anim 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse infinite;
+            color: #E63946;
+            z-index: -2;
+            text-shadow: -2px 0 #FB8500;
+        }
+
+        @keyframes glitch-anim {
+            0% {
+                clip-path: polygon(0% 0%, 100% 0%, 100% 35%, 0% 100%);
+                transform: translate(0);
+            }
+            20% {
+                clip-path: polygon(0% 25%, 100% 25%, 100% 58%, 0% 77%);
+                transform: translate(-2px, 2px);
+            }
+            40% {
+                clip-path: polygon(0% 50%, 100% 50%, 100% 100%, 0% 0%);
+                transform: translate(-2px, -2px);
+            }
+            60% {
+                clip-path: polygon(0% 2%, 100% 2%, 100% 58%, 0% 100%);
+                transform: translate(2px, 2px);
+            }
+            80% {
+                clip-path: polygon(0% 10%, 100% 10%, 100% 99%, 0% 70%);
+                transform: translate(2px, -2px);
+            }
+            100% {
+                clip-path: polygon(0% 0%, 0% 0%, 100% 0%, 100% 100%);
+                transform: translate(0);
+            }
+        }
+
+        /* Shine effect pour la boîte premium */
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-effect::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.8rem; }
+            .subtitle { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Conteneur Principal -->
+    <div class="ad-container">
+        <!-- Canvas pour confetti -->
+        <canvas id="confetti-canvas"></canvas>
+
+        <!-- SCÈNE 1: HOOK CATCHY (00:00 - 00:05) -->
+        <section class="scene scene1 active">
+            <div class="scene-bg"></div>
+            <div class="scene-content">
+                <div class="logo-explode glitch-text" data-text="CROUSTY">CROUSTY</div>
+                <div style="font-size: 3.5rem; font-weight: 900; color: white; text-shadow: 0 8px 20px rgba(0,0,0,0.4);">CHIPS</div>
+                <h2 class="subtitle">Craquez pour le vrai goût ! 🔥</h2>
+                <p class="tagline">Envie d'un croustillant BÉTON ?</p>
+            </div>
+        </section>
+
+        <!-- SCÈNE 2: LA GAMME 100 FCFA (00:05 - 00:12) -->
+        <section class="scene scene2">
+            <div class="scene-bg"></div>
+            <div class="scene-content">
+                <h2>Les 3 Saveurs</h2>
+                <div class="flavors-grid">
+                    <div class="flavor-card">
+                        <div class="flavor-emoji">🧂</div>
+                        <div class="flavor-name">Salé</div>
+                        <div class="flavor-desc">Croustillant intense</div>
+                    </div>
+                    <div class="flavor-card">
+                        <div class="flavor-emoji">🍯</div>
+                        <div class="flavor-name">Sucré</div>
+                        <div class="flavor-desc">Doux & savoureux</div>
+                    </div>
+                    <div class="flavor-card">
+                        <div class="flavor-emoji">🌶️</div>
+                        <div class="flavor-name">Pimenté</div>
+                        <div class="flavor-desc">Épicé explosif</div>
+                    </div>
+                </div>
+                <div class="price-badge">100 FCFA SEULEMENT !</div>
+            </div>
+        </section>
+
+        <!-- SCÈNE 3: MONTE EN GAMME (00:12 - 00:19) -->
+        <section class="scene scene3">
+            <div class="scene-bg"></div>
+            <div class="scene-content">
+                <h2>Les Formats Premium</h2>
+                <div class="products-showcase">
+                    <div class="product-item">
+                        <div class="product-icon">📦</div>
+                        <div class="product-name">Format Moyen</div>
+                        <div class="product-price">500 FCFA</div>
+                    </div>
+                    <div class="product-item premium shine-effect">
+                        <div class="product-icon">🎁</div>
+                        <div class="product-name">Boîte Premium</div>
+                        <div class="product-price">1000 FCFA</div>
+                    </div>
+                </div>
+                <p class="subtitle">Pour les grands gourmands & les fêtes !</p>
+            </div>
+        </section>
+
+        <!-- SCÈNE 4: SERVICE & REASSURANCE (00:19 - 00:25) -->
+        <section class="scene scene4">
+            <div class="scene-bg"></div>
+            <div class="scene-content">
+                <div class="delivery-content">
+                    <div class="delivery-icon">🚀</div>
+                    <svg class="benin-flag" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="300" height="600" fill="#FCD116"/>
+                        <rect x="300" width="300" height="600" fill="#CE1126"/>
+                        <rect x="600" width="300" height="600" fill="#007A5E"/>
+                    </svg>
+                    <h2>Disponible partout</h2>
+                    <p class="subtitle">au BÉNIN 🇧🇯</p>
+                    <p class="tagline">Livraison rapide garantie 📍</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCÈNE 5: CALL TO ACTION FINAL (00:25 - 00:30) -->
+        <section class="scene scene5">
+            <div class="scene-bg"></div>
+            <div class="scene-content">
+                <h2>COMMANDEZ MAINTENANT !</h2>
+                <a href="https://wa.me/22901579644164" class="cta-button">
+                    📱 +229 015 796 44 16
+                </a>
+                <p class="tagline">Le plaisir qui craque ! 😋</p>
+            </div>
+        </section>
+
+        <!-- Barre de progression -->
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer">
+            <span id="current-time">00:00</span> / 00:30
+        </div>
+
+        <!-- Contrôles -->
+        <div class="controls">
+            <button class="control-btn" id="play-btn">▶</button>
+            <button class="control-btn" id="replay-btn">⟲</button>
+        </div>
+    </div>
+
+    <!-- Scripts CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        // ===== CONFIGURATION =====
+        const DURATION = 30;
+        let isPlaying = true;
+        let startTime = Date.now();
+        let pausedTime = 0;
+
+        // ===== ELEMENTS DOM =====
+        const scenes = document.querySelectorAll('.scene');
+        const progressFill = document.querySelector('.progress-fill');
+        const currentTimeSpan = document.querySelector('#current-time');
+        const playBtn = document.querySelector('#play-btn');
+        const replayBtn = document.querySelector('#replay-btn');
+        const canvas = document.querySelector('#confetti-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // ===== SETUP CANVAS =====
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+
+        // ===== ANIMATIONS GSAP =====
+        const timeline = gsap.timeline({ paused: true });
+
+        // Scène 1: HOOK CATCHY (00:00 - 00:05)
+        timeline.fromTo(
+            '.scene1',
+            { opacity: 0, scale: 0.8 },
+            { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.7)' },
+            0
+        );
+        timeline.fromTo(
+            '.scene1 .logo-explode',
+            { y: -50, opacity: 0, filter: 'blur(10px)' },
+            { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.6, ease: 'power4.out' },
+            0.2
+        );
+        timeline.fromTo(
+            '.scene1 .subtitle, .scene1 .tagline',
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: 'power3.out' },
+            0.5
+        );
+        timeline.to('.scene1', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 4.5);
+
+        // Scène 2: SAVEURS (00:05 - 00:12)
+        timeline.fromTo(
+            '.scene2',
+            { opacity: 0, clipPath: 'inset(0 100% 0 0)' },
+            { opacity: 1, clipPath: 'inset(0 0% 0 0)', duration: 0.6, ease: 'power4.inOut' },
+            5
+        );
+        timeline.fromTo(
+            '.scene2 h2',
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
+            5.1
+        );
+        timeline.fromTo(
+            '.flavor-card',
+            { y: 60, opacity: 0, scale: 0.8 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.15, ease: 'back.out(1.5)' },
+            5.3
+        );
+        timeline.fromTo(
+            '.scene2 .price-badge',
+            { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.5, ease: 'elastic.out(1, 0.5)' },
+            5.8
+        );
+        timeline.to('.scene2', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 11.5);
+
+        // Scène 3: PREMIUM (00:12 - 00:19)
+        timeline.fromTo(
+            '.scene3',
+            { opacity: 0, rotationY: -90 },
+            { opacity: 1, rotationY: 0, duration: 0.7, ease: 'power3.out' },
+            12
+        );
+        timeline.fromTo(
+            '.scene3 h2',
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
+            12.2
+        );
+        timeline.fromTo(
+            '.product-item',
+            { y: 100, opacity: 0, scale: 0.6 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.7, stagger: 0.2, ease: 'back.out(1.4)' },
+            12.5
+        );
+        timeline.fromTo(
+            '.scene3 .subtitle',
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
+            13.2
+        );
+        timeline.to('.scene3', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 18.5);
+
+        // Scène 4: LIVRAISON (00:19 - 00:25)
+        timeline.fromTo(
+            '.scene4',
+            { opacity: 0, y: 100 },
+            { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+            19
+        );
+        timeline.fromTo(
+            '.delivery-icon',
+            { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.7)' },
+            19.2
+        );
+        timeline.fromTo(
+            '.benin-flag',
+            { rotationY: -180, opacity: 0 },
+            { rotationY: 0, opacity: 1, duration: 0.7, ease: 'back.out(1.5)' },
+            19.5
+        );
+        timeline.fromTo(
+            '.scene4 h2, .scene4 .subtitle, .scene4 .tagline',
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power3.out' },
+            19.8
+        );
+        timeline.to('.scene4', { opacity: 0, duration: 0.5, ease: 'power2.in' }, 24.5);
+
+        // Scène 5: CTA FINAL (00:25 - 00:30)
+        timeline.fromTo(
+            '.scene5',
+            { opacity: 0, scale: 0.8 },
+            { opacity: 1, scale: 1, duration: 0.7, ease: 'back.out(1.7)' },
+            25
+        );
+        timeline.fromTo(
+            '.scene5 h2',
+            { y: 40, opacity: 0, filter: 'blur(10px)' },
+            { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.6, ease: 'power4.out' },
+            25.2
+        );
+        timeline.fromTo(
+            '.cta-button',
+            { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.6, ease: 'elastic.out(1, 0.6)' },
+            25.6
+        );
+        timeline.fromTo(
+            '.scene5 .tagline',
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' },
+            26.2
+        );
+
+        // Confetti à 26s
+        timeline.call(() => {
+            confetti({
+                particleCount: 150,
+                spread: 90,
+                origin: { y: 0.5, x: 0.5 },
+                colors: ['#FFB703', '#FB8500', '#E63946', '#0F0F1A']
+            });
+        }, null, 26);
+
+        // ===== ANIMATION LOOP =====
+        function updateAnimation() {
+            if (!isPlaying) return;
+
+            const elapsed = (Date.now() - startTime + pausedTime) / 1000;
+            const progress = Math.min(elapsed, DURATION);
+
+            // Update timeline
+            timeline.time(progress);
+
+            // Update progress bar
+            const progressPercent = (progress / DURATION) * 100;
+            progressFill.style.width = progressPercent + '%';
+
+            // Update timer
+            const minutes = Math.floor(progress / 60);
+            const seconds = Math.floor(progress % 60);
+            currentTimeSpan.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            // Update scene visibility
+            scenes.forEach((scene, idx) => {
+                scene.classList.remove('active');
+            });
+            scenes.forEach((scene) => {
+                const sceneStart = parseFloat(scene.dataset.start || '0');
+                const sceneEnd = parseFloat(scene.dataset.end || '30');
+                if (progress >= sceneStart && progress < sceneEnd) {
+                    scene.classList.add('active');
+                }
+            });
+
+            // Restart at end
+            if (progress >= DURATION) {
+                isPlaying = false;
+                playBtn.textContent = '▶';
+            }
+
+            requestAnimationFrame(updateAnimation);
+        }
+
+        // ===== CONTRÔLES =====
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                startTime = Date.now();
+                pausedTime = timeline.time() * 1000;
+                playBtn.textContent = '⏸';
+            } else {
+                playBtn.textContent = '▶';
+            }
+        });
+
+        replayBtn.addEventListener('click', () => {
+            timeline.time(0);
+            startTime = Date.now();
+            pausedTime = 0;
+            isPlaying = true;
+            playBtn.textContent = '⏸';
+        });
+
+        // ===== START =====
+        updateAnimation();
+    </script>
+</body>
+</html>
