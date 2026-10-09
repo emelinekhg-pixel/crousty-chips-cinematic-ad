@@ -1,0 +1,17 @@
+{
+  "name": "crousty-chips-cinematic-ad",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "preview": "node render.mjs --preview",
+    "render": "node render.mjs",
+    "render:quality": "node render.mjs --quality",
+    "check": "node render.mjs --check"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0",
+    "three": "^0.180.0",
+    "playwright": "^1.55.0"
+  }
+}

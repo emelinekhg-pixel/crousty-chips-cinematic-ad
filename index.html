@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, initial-scale=1">
+<title>CROUSTY CHIPS — Cinematic Campaign</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --orange:#ff5a0a;
+  --gold:#ffc34d;
+  --cream:#fff1d6;
+  --red:#d91d0b;
+  --black:#100603;
+  --t:0;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;width:1080px;height:1920px;overflow:hidden;
+  background:#100603;color:white;font-family:"DM Sans",sans-serif
+}
+body{position:relative}
+#stage{
+  position:absolute;inset:0;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 42%,#7e220b 0%,#320b06 40%,#100603 78%)
+}
+#three-bg{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.grain{
+  pointer-events:none;position:absolute;inset:-50%;z-index:20;opacity:.09;
+  width:200%;height:200%;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.94' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")
+}
+.vignette{
+ position:absolute;inset:0;z-index:19;pointer-events:none;
+ background:radial-gradient(ellipse,transparent 38%,rgba(0,0,0,.23) 74%,rgba(0,0,0,.78) 120%)
+}
+.scene{position:absolute;inset:0;z-index:3;opacity:0;visibility:hidden;overflow:hidden}
+.scene.active{visibility:visible}
+.kicker{
+ font-size:24px;letter-spacing:9px;font-weight:800;text-transform:uppercase;
+ color:var(--gold)
+}
+.huge{
+ font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;
+ font-size:140px;line-height:.87;letter-spacing:-2px;margin:0
+}
+.outline{
+ color:transparent;-webkit-text-stroke:2px var(--cream)
+}
+.center{text-align:center}
+.brand{
+ font-family:Anton,Impact,sans-serif;letter-spacing:3px;font-size:48px;
+ text-transform:uppercase;color:var(--cream)
+}
+.brand span{color:var(--orange)}
+.rule{height:3px;background:var(--gold);width:100px;margin:35px auto}
+.chip{
+ position:absolute;width:210px;height:210px;border-radius:50%;
+ background:
+ radial-gradient(ellipse at 36% 28%,rgba(255,242,173,.96),transparent 21%),
+ radial-gradient(ellipse at 62% 72%,rgba(146,53,7,.28),transparent 28%),
+ radial-gradient(ellipse at 43% 38%,#ffd96d 0%,#f8ad32 48%,#b95b0d 78%,#7c3308 100%);
+ box-shadow:inset -9px -14px 16px #80330766,inset 5px 5px 9px #fff0a966,
+ 0 20px 40px #0008;
+ border:3px solid #ffcc6533
+}
+.chip:after{
+ content:"";position:absolute;inset:17%;border-radius:50%;
+ border:1px solid #8b450c33;transform:rotate(-25deg)
+}
+.chip.c2{width:165px;height:165px;filter:brightness(.9)}
+.chip.c3{width:125px;height:125px;filter:brightness(1.1)}
+.product{
+ position:absolute;width:560px;height:780px;left:260px;top:570px;
+ transform-origin:50% 60%;filter:drop-shadow(0 50px 65px #000a)
+}
+.jar{
+ position:absolute;left:70px;top:90px;width:420px;height:590px;
+ border:7px solid #fbd7a766;border-radius:78px 78px 55px 55px;
+ background:linear-gradient(90deg,#ffffff15,#ffffff39 15%,#ffffff05 28%,#00000016 65%,#ffffff21 90%);
+ box-shadow:inset 18px 0 22px #fff2,inset -20px 0 20px #0003,0 0 0 2px #ffffff16;
+ overflow:hidden
+}
+.jar:before{
+ content:"";position:absolute;left:10px;right:10px;top:95px;bottom:12px;
+ background:linear-gradient(90deg,#b65b10,#e99b28 20%,#ffd46d 45%,#b66a18 80%,#7d3409);
+ opacity:.65;border-radius:35px
+}
+.lid{
+ position:absolute;z-index:5;left:44px;top:40px;width:470px;height:105px;
+ border-radius:25px 25px 14px 14px;
+ background:repeating-linear-gradient(90deg,#b91608 0px,#ff3812 14px,#e32409 23px,#ff5120 31px);
+ box-shadow:0 18px 25px #0008,inset 0 8px 8px #ffad6b88
+}
+.label-art{
+ position:absolute;z-index:7;top:265px;left:15px;width:390px;height:245px;
+ padding:24px 12px;text-align:center;overflow:hidden;
+ background:linear-gradient(155deg,#fff5d9,#ffe0a4 62%,#f7b63b);
+ color:#7b1808;border:5px solid #fff8d9;
+ box-shadow:0 8px 20px #0003
+}
+.label-art:before{
+ content:"";position:absolute;inset:0;opacity:.13;
+ background:repeating-linear-gradient(135deg,transparent 0 20px,#bc4a0b 20px 22px)
+}
+.label-brand{font-size:24px;font-weight:900;letter-spacing:4px;position:relative}
+.label-title{
+ font-family:Anton,Impact,sans-serif;font-size:60px;line-height:.9;
+ text-transform:uppercase;position:relative
+}
+.label-sub{font-size:15px;letter-spacing:5px;font-weight:900;margin-top:12px;position:relative}
+.jar-chip{
+ position:absolute;z-index:3;left:35px;top:125px;width:340px;height:425px;
+ display:grid;grid-template-columns:repeat(3,1fr);gap:0;transform:rotate(-7deg)
+}
+.jar-chip .chip{position:relative;width:125px;height:125px;margin:-8px}
+.product-floor{
+ position:absolute;left:-15%;right:-15%;height:250px;bottom:145px;
+ transform:perspective(700px) rotateX(52deg);
+ background:linear-gradient(0deg,#160905,#48200f 45%,#b75a16 47%,#180805 49%);
+ box-shadow:0 -15px 70px #ff7a1533
+}
+.small-copy{font-size:27px;letter-spacing:3px;font-weight:700}
+.cta{
+ display:inline-block;padding:25px 48px;background:var(--orange);
+ color:#fff;font-size:27px;font-weight:900;letter-spacing:4px;
+ transform:skew(-7deg);box-shadow:0 12px 40px #ff420555
+}
+.scene1{background:radial-gradient(ellipse at 50% 45%,#a43a10 0%,#4c1007 45%,#100603 100%)}
+.scene1 .topbrand{position:absolute;top:95px;left:0;right:0;text-align:center}
+.scene1 .hero-title{position:absolute;top:330px;left:0;right:0;text-align:center}
+.scene1 .hero-title .huge{font-size:155px}
+.scene1 .hero-title .second{color:var(--gold)}
+.scene1 .product{top:640px}
+.scene1 .bottom-copy{position:absolute;bottom:185px;left:80px;right:80px;text-align:center}
+.scene2{background:radial-gradient(ellipse at 50% 50%,#ff9d26 0%,#9f2609 32%,#240805 76%)}
+.scene2 .headline{position:absolute;top:165px;left:55px;right:55px;text-align:center}
+.scene2 .headline .huge{font-size:155px}
+.scene2 .product{top:560px;transform:rotate(-9deg) scale(1.02)}
+.scene2 .burst{
+ position:absolute;left:50%;top:970px;width:1050px;height:1050px;
+ transform:translate(-50%,-50%);
+ border-radius:50%;background:repeating-conic-gradient(from 0deg,#ffbf33 0deg 4deg,transparent 4deg 13deg);
+ opacity:.12
+}
+.scene2 .bottom-copy{position:absolute;bottom:150px;left:65px;right:65px;text-align:center}
+.scene3{background:radial-gradient(ellipse at 50% 35%,#531409,#190705 72%,#090403)}
+.scene3 .headline{position:absolute;top:180px;left:55px;right:55px;text-align:center}
+.scene3 .headline .huge{font-size:130px}
+.scene3 .product{top:610px;transform:rotate(5deg) scale(.94)}
+.scene3 .claim{
+ position:absolute;bottom:245px;left:0;right:0;text-align:center;
+ font-family:Anton,Impact,sans-serif;font-size:95px;line-height:.9
+}
+.scene3 .claim span{color:var(--gold)}
+.scene4{background:radial-gradient(ellipse at 50% 50%,#ff9a1b,#7e1b07 45%,#100603 85%)}
+.scene4 .headline{position:absolute;top:160px;left:0;right:0;text-align:center}
+.scene4 .headline .huge{font-size:135px}
+.scene4 .product{top:500px;transform:scale(.92) rotate(-5deg)}
+.scene4 .copy{position:absolute;bottom:185px;left:0;right:0;text-align:center}
+.scene5{background:radial-gradient(ellipse at 50% 45%,#70200b,#260805 55%,#080302)}
+.scene5 .end-brand{position:absolute;top:160px;left:0;right:0;text-align:center}
+.scene5 .end-brand .brand{font-size:72px}
+.scene5 .product{top:440px;transform:scale(.83)}
+.scene5 .tagline{position:absolute;bottom:390px;left:0;right:0;text-align:center}
+.scene5 .tagline .huge{font-size:105px}
+.scene5 .footer{position:absolute;bottom:150px;left:0;right:0;text-align:center}
+.scene5 .footer .cta{margin-bottom:40px}
+.scene5 .footer .small-copy{font-size:19px;letter-spacing:7px;color:#ffdca7}
+.flare{
+ position:absolute;z-index:10;left:50%;top:50%;width:10px;height:10px;
+ border-radius:50%;background:white;opacity:0;pointer-events:none;
+ box-shadow:0 0 100px 70px #ffb044,0 0 250px 150px #ff4a0a88
+}
+.vertical-lines{
+ position:absolute;inset:0;z-index:12;pointer-events:none;opacity:.12;
+ background:repeating-linear-gradient(90deg,transparent 0 89px,#ffdcac 90px,#ffdcac 91px,transparent 92px)
+}
+.scene .chip-float{position:absolute;z-index:4}
+#progress{
+ position:absolute;bottom:45px;left:60px;right:60px;height:3px;
+ background:#ffffff24;z-index:30
+}
+#progressbar{height:100%;width:0;background:var(--gold)}
+#timecode{
+ position:absolute;right:60px;bottom:65px;z-index:30;
+ font-size:15px;letter-spacing:4px;color:#ffddb1
+}
+</style>
+</head>
+<body>
+<div id="stage">
+<canvas id="three-bg"></canvas>
+<div class="vertical-lines"></div>
+
+<section class="scene scene1" data-start="0" data-end="5">
+  <div class="topbrand"><div class="brand">CROUSTY <span>CHIPS</span></div></div>
+  <div class="hero-title">
+    <div class="kicker">LE CROQUANT A UN NOM</div>
+    <h1 class="huge">CROUSTY</h1>
+    <h1 class="huge second">CHIPS.</h1>
+    <div class="rule"></div>
+    <div class="small-copy">LE PLAISIR PREND UNE AUTRE DIMENSION</div>
+  </div>
+  <div class="product">
+    <div class="lid"></div>
+    <div class="jar">
+      <div class="jar-chip" id="chips1"></div>
+      <div class="label-art">
+        <div class="label-brand">CROUSTY</div>
+        <div class="label-title">PLANTAIN<br>CHIPS</div>
+        <div class="label-sub">GOLDEN • CRISPY • DELICIOUS</div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-copy">
+    <div class="kicker">100% PLAISIR · CROQUANT INOUBLIABLE</div>
+  </div>
+</section>
+
+<section class="scene scene2" data-start="5" data-end="10">
+  <div class="burst"></div>
+  <div class="headline">
+    <div class="kicker">DORÉES À LA PERFECTION</div>
+    <h2 class="huge">L'OR DU</h2>
+    <h2 class="huge" style="color:var(--gold)">CROQUANT.</h2>
+  </div>
+  <div class="product">
+    <div class="lid"></div>
+    <div class="jar">
+      <div class="jar-chip" id="chips2"></div>
+      <div class="label-art">
+        <div class="label-brand">CROUSTY</div>
+        <div class="label-title">PLANTAIN<br>CHIPS</div>
+        <div class="label-sub">GOLDEN • CRISPY • DELICIOUS</div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-copy">
+    <div class="small-copy">UNE BOUCHÉE. UNE EXPLOSION DE SAVEURS.</div>
+  </div>
+</section>
+
+<section class="scene scene3" data-start="10" data-end="15">
+  <div class="headline">
+    <div class="kicker">LA PAUSE QUI CHANGE TOUT</div>
+    <h2 class="huge">JUSTE</h2>
+    <h2 class="huge outline">IRRÉSISTIBLES.</h2>
+  </div>
+  <div class="product">
+    <div class="lid"></div>
+    <div class="jar">
+      <div class="jar-chip" id="chips3"></div>
+      <div class="label-art">
+        <div class="label-brand">CROUSTY</div>
+        <div class="label-title">PLANTAIN<br>CHIPS</div>
+        <div class="label-sub">GOLDEN • CRISPY • DELICIOUS</div>
+      </div>
+    </div>
+  </div>
+  <div class="claim">LE BON GOÛT.<br><span>POINT FINAL.</span></div>
+</section>
+
+<section class="scene scene4" data-start="15" data-end="21">
+  <div class="headline">
+    <div class="kicker">À PARTAGER. OU PAS.</div>
+    <h2 class="huge">LE BONHEUR</h2>
+    <h2 class="huge" style="color:var(--gold)">EN MODE</h2>
+    <h2 class="huge">CROUSTY.</h2>
+  </div>
+  <div class="product">
+    <div class="lid"></div>
+    <div class="jar">
+      <div class="jar-chip" id="chips4"></div>
+      <div class="label-art">
+        <div class="label-brand">CROUSTY</div>
+        <div class="label-title">PLANTAIN<br>CHIPS</div>
+        <div class="label-sub">GOLDEN • CRISPY • DELICIOUS</div>
+      </div>
+    </div>
+  </div>
+  <div class="copy">
+    <div class="small-copy">TON MOMENT. TON CROQUANT.</div>
+  </div>
+</section>
+
+<section class="scene scene5" data-start="21" data-end="30">
+  <div class="end-brand">
+    <div class="kicker">LE GOÛT QUI RESTE</div>
+    <div class="brand">CROUSTY <span>CHIPS</span></div>
+  </div>
+  <div class="product">
+    <div class="lid"></div>
+    <div class="jar">
+      <div class="jar-chip" id="chips5"></div>
+      <div class="label-art">
+        <div class="label-brand">CROUSTY</div>
+        <div class="label-title">PLANTAIN<br>CHIPS</div>
+        <div class="label-sub">GOLDEN • CRISPY • DELICIOUS</div>
+      </div>
+    </div>
+  </div>
+  <div class="tagline">
+    <div class="kicker">UNE ENVIE ?</div>
+    <h2 class="huge">CROQUEZ</h2>
+    <h2 class="huge" style="color:var(--gold)">LA VIE.</h2>
+  </div>
+  <div class="footer">
+    <div class="cta">GOÛTEZ LA DIFFÉRENCE</div>
+    <div class="small-copy">CROUSTY CHIPS — LE CROQUANT QUI FAIT LA DIFFÉRENCE</div>
+  </div>
+</section>
+
+<div class="flare" id="flare"></div>
+<div class="grain"></div>
+<div class="vignette"></div>
+<div id="timecode">00:00 / 00:30</div>
+<div id="progress"><div id="progressbar"></div></div>
+</div>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
+import {gsap} from 'https://cdn.jsdelivr.net/npm/gsap@3.13.0/index.js';
+
+const W=1080,H=1920,DURATION=30;
+const stage=document.querySelector('#stage');
+const canvas=document.querySelector('#three-bg');
+const renderer=new THREE.WebGLRenderer({
+ canvas,alpha:true,antialias:true,powerPreference:'high-performance'
+});
+renderer.setPixelRatio(1);
+renderer.setSize(W,H,false);
+renderer.setClearColor(0x000000,0);
+
+const scene3d=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(45,W/H,.1,3000);
+camera.position.z=900;
+
+const count=520;
+const positions=new Float32Array(count*3);
+const sizes=new Float32Array(count);
+for(let i=0;i<count;i++){
+ positions[i*3]=(Math.random()-.5)*W*1.8;
+ positions[i*3+1]=(Math.random()-.5)*H*1.8;
+ positions[i*3+2]=(Math.random()-.5)*800;
+ sizes[i]=Math.random()*5+1;
+}
+const geo=new THREE.BufferGeometry();
+geo.setAttribute('position',new THREE.BufferAttribute(positions,3));
+geo.setAttribute('size',new THREE.BufferAttribute(sizes,1));
+const mat=new THREE.PointsMaterial({
+ color:0xffb347,size:3,transparent:true,opacity:.65,
+ blending:THREE.AdditiveBlending,depthWrite:false
+});
+const particles=new THREE.Points(geo,mat);
+scene3d.add(particles);
+
+const haloGeo=new THREE.PlaneGeometry(800,800);
+const haloMat=new THREE.MeshBasicMaterial({
+ color:0xff510e,transparent:true,opacity:.07,depthWrite:false
+});
+const halo=new THREE.Mesh(haloGeo,haloMat);
+halo.position.z=-180;
+scene3d.add(halo);
+
+const chipMarkup=Array.from({length:12},(_,i)=>{
+ const r=Math.random()*25-12;
+ return `<div class="chip ${i%3===0?'c2':i%4===0?'c3':''}" style="transform:rotate(${r}deg)"></div>`;
+}).join('');
+document.querySelectorAll('.jar-chip').forEach(el=>el.innerHTML=chipMarkup);
+
+const scenes=[...document.querySelectorAll('.scene')];
+const tl=gsap.timeline({paused:true,defaults:{ease:'power3.out'}});
+scenes.forEach((s,i)=>{
+ const start=Number(s.dataset.start);
+ const end=Number(s.dataset.end);
+ const product=s.querySelector('.product');
+ const headings=s.querySelectorAll('.huge,.kicker,.small-copy,.brand,.cta');
+ tl.set(s,{autoAlpha:1},start);
+ tl.set(s,{visibility:'visible'},start);
+ tl.fromTo(s,{clipPath:'inset(100% 0 0 0)'},{clipPath:'inset(0% 0 0 0)',duration:.85,ease:'power4.inOut'},start);
+ if(product){
+  tl.fromTo(product,{y:130,scale:.82,rotation:-9,autoAlpha:0},
+    {y:0,scale:1,rotation:0,autoAlpha:1,duration:1.25,ease:'back.out(1.35)'},start+.2);
+  tl.to(product,{y:-22,duration:1.7,yoyo:true,repeat:1,ease:'sine.inOut'},start+1.5);
+ }
+ headings.forEach((h,j)=>{
+  tl.fromTo(h,{y:65,autoAlpha:0,filter:'blur(12px)'},{
+   y:0,autoAlpha:1,filter:'blur(0px)',duration:.75,
+   ease:'power4.out'
+  },start+.12+j*.065);
+ });
+ if(s.querySelector('.burst')){
+  tl.fromTo(s.querySelector('.burst'),{scale:.2,rotation:-45,autoAlpha:0},
+   {scale:1,rotation:15,autoAlpha:1,duration:1.2,ease:'power3.out'},start+.15);
+  tl.to(s.querySelector('.burst'),{rotation:35,duration:4,ease:'none'},start+1);
+ }
+ if(i<scenes.length-1){
+  tl.to(s,{autoAlpha:0,duration:.5,ease:'power2.in'},end-.5);
+ }
+});
+tl.set('#progressbar',{width:'100%'},DURATION);
+tl.pause(0);
+
+function updateScene(t){
+ scenes.forEach((s)=>{
+  const start=Number(s.dataset.start),end=Number(s.dataset.end);
+  const active=t>=start && t<end;
+  s.classList.toggle('active',active);
+  s.style.visibility=active?'visible':'hidden';
+ });
+ const p=document.querySelector('#progressbar');
+ p.style.width=(t/DURATION*100)+'%';
+ const sec=Math.max(0,Math.min(DURATION,t));
+ document.querySelector('#timecode').textContent=
+  `00:${String(Math.floor(sec)).padStart(2,'0')} / 00:30`;
+}
+
+function drawThree(t){
+ const arr=geo.attributes.position.array;
+ for(let i=0;i<count;i++){
+  const k=i*3;
+  arr[k+1]+=.35+Math.sin(t*.7+i)*.12;
+  arr[k]+=.12*Math.sin(t*.5+i*.2);
+  if(arr[k+1]>H)arr[k+1]=-H;
+ }
+ geo.attributes.position.needsUpdate=true;
+ particles.rotation.z=Math.sin(t*.1)*.035;
+ particles.rotation.y=Math.sin(t*.12)*.04;
+ halo.material.opacity=.04+Math.max(0,Math.sin(t*2))*.05;
+ renderer.render(scene3d,camera);
+}
+
+window.renderAt=(t)=>{
+ const time=Math.max(0,Math.min(DURATION,t));
+ tl.time(time,true);
+ updateScene(time);
+ drawThree(time);
+};
+window.renderAt(0);
+
+if(!new URLSearchParams(location.search).has('render')){
+ let start=performance.now();
+ function tick(now){
+  const t=((now-start)/1000)%DURATION;
+  window.renderAt(t);
+  requestAnimationFrame(tick);
+ }
+ requestAnimationFrame(tick);
+}
+</script>
+</body>
+</html>
